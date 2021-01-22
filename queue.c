@@ -1,17 +1,8 @@
 /*
     Arquivo contendo a implementação de uma fila utilizando um array acessado de forma circular.
-
 */
- 
- // Defina aqui o tipo dos elementos guardados na fila.
- typedef short TYPE;
-  
-typedef struct Queue { 
-    TYPE* array;
-    int first, last;  // apontam posições no array da fila
-    unsigned length, maxlength; 
-} Queue; 
-  
+#include "queue.h"
+
 // Cria uma fila com uma certa capacidade.
 Queue* queue_create(unsigned maxlength) { 
     Queue* queue = (Queue*) malloc(sizeof(Queue));
