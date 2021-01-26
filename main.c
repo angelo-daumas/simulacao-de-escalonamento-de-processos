@@ -5,6 +5,7 @@
 #include "queue.h"
 #include "scheduler.h"
 
+#define TOTAL_PROCESSES  2
 
 // Tempo total de execução da CPU.
 unsigned CPUtime = 0;
@@ -58,7 +59,7 @@ int main(void){
 // Process creation
 uint8_t pid_gen = 0;
 int future_index = 0;
-const int TOTAL_PROCESSES = 2;
+
 Process future_processes[TOTAL_PROCESSES] = {
     {.start=0},
     {.start=5}
