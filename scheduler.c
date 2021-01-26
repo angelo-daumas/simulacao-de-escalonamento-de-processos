@@ -14,10 +14,16 @@ static void get_next_process(){
         if (!queue_isempty(ready_queues[i])) {
             currentProcess = process_table[queue_pop(ready_queues[i])];
             timeUsed = 0;
+            currentProcess->state = PSTATE_RUNNING;
             return;
         }
     }
     currentProcess = NULL;
+}
+
+void scheduler_block(){
+    currentProcess->state = PSTATE_BLOCKED;
+    get_next_process();
 }
 
 void scheduler(){
@@ -26,22 +32,13 @@ void scheduler(){
     }
     else {
         if (queue_isempty(currentProcess->instructions)){
+            currentProcess->state = PSTATE_TERMINATED;
             get_next_process();
         }
-        else if (timeUsed == MAX_TIME_USED){
+        else if (timeUsed >= MAX_TIME_USED){
             queue_push(ready_queues[1], currentProcess->id);
+            currentProcess->state = PSTATE_READY;
             get_next_process();
         }
-    }
-
-    
-    int instruction;
-    while (currentProcess && (instruction = queue_pop(currentProcess->instructions)) != CPU){
-        request_device(instruction, currentProcess->id);
-        get_next_process();
-    }
-    
-    if (currentProcess){
-        timeUsed++;
     }
 }
