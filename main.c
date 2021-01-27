@@ -12,11 +12,13 @@ unsigned CPUtime = 0;
 
 void simulateCPU(){
     int instruction;
-    while (currentProcess && (instruction = queue_pop(currentProcess->instructions)) != CPU){
+    while(currentProcess && (instruction = queue_pop(currentProcess->instructions)) != CPU){
         request_device(instruction);
     }
-    
-    if (currentProcess) printf("%d : %d\n", CPUtime, currentProcess->id);
+
+    if (currentProcess) printf("[Tick %d]\tExecution process id %d\n", CPUtime, currentProcess->id);
+    else printf("[Tick %d]\tNone\n", CPUtime);
+
     CPUtime++;
     timeUsed++;
 }

@@ -36,7 +36,7 @@ extern void create_processes(){
             p->state = PSTATE_CREATED;
             p->priority = INITIAL_PRIORITY;
             process_table[p->id] = p;
-            printf("New process: %d\n", p->id);
+            printf("[Tick %d]\tNew process id %d\n",p->start,p->id);
             process_count++;
             
             schedule_process(p);
