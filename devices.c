@@ -20,7 +20,7 @@ static struct IODevice IOdevices[IO_DEVICE_NUMBER] = {
 // Simula a operação de um dispositivo. Quando uma operação é completada, retorna o pid do processo. Senão retorna zero.
 static int simulate_device(int i){
     struct IODevice* device = &IOdevices[i];
-    
+    // Verifica se existe algum processo solicitando operação no dispositivo
     if (device_isactive(i)){
         if (--(device->counter) == 0){
             device->counter = device->duration;
@@ -48,6 +48,7 @@ extern void request_device(int deviceid){
 
 extern void simulateIO(){
     for (int i = 0; i < IO_DEVICE_NUMBER; i++){
+        // Se o tempo de operação no dispositivo terminou, retorna o ID do processo que solicitou a operação, se não, retorna 0.
         int pid = simulate_device(i);
         
         if (pid){

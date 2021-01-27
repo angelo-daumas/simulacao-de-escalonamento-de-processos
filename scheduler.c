@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "scheduler.h"
 
 // Prioridade atribuída a processos que foram preemptidos por consumirem toda sua fatia de tempo.
@@ -8,6 +10,7 @@ static Queue* ready_queues[NUM_PRIORITIES];
 /*
  Esta função irá atribuir à global "currentProcess" o ponteiro do próximo processo
 a ser executado, de acordo com a ordem das filas de prioridade.
+ Se nenhuma das filas tiver um processo a ser executado, o ponteiro currentProcess é null;
 */
 static void get_next_process(){
     for (int i = 0; i < NUM_PRIORITIES; i++) {
@@ -57,4 +60,15 @@ extern void scheduler(){
 extern void scheduler_init(){
     for (int i = 0; i < NUM_PRIORITIES; i++)
         ready_queues[i] = queue_create(NUM_PROCESSES);
+}
+
+extern void output_info( unsigned Tick, int pState, int PID){
+  printf("[Tick %d]\t infos", Tick);
+
+  if(pState == PSTATE_CREATED)
+    printf("\tNew process id %d\n", PID);
+  else if(pState != PSTATE_INVALID)
+    printf("\tExecution process id %d\n", PID);
+  else 
+    printf("\tNone - CPU IDLE\n");
 }

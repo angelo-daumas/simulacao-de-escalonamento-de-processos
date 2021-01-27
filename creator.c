@@ -6,7 +6,7 @@
 #define TOTAL_PROCESSES  3  // Total de processos pré-definidos criados.
 #define INITIAL_PRIORITY 0  // Prioridade atribuída a processos recém-criados.
 
-
+// Indica qual será o índice da próxima operação da CPU
 static int future_index = 0;
 
 static Process future_processes[TOTAL_PROCESSES] = {
@@ -36,7 +36,7 @@ extern void create_processes(){
             p->state = PSTATE_CREATED;
             p->priority = INITIAL_PRIORITY;
             process_table[p->id] = p;
-            printf("[Tick %d]\tNew process id %d\n",p->start,p->id);
+            output_info( CPUtime ,p->state, p->id);
             process_count++;
             
             schedule_process(p);

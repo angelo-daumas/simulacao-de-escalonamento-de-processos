@@ -35,3 +35,6 @@ void schedule_process(Process* p);
 
 // Inicializa o escalonador. Deve ser chamada antes do laço principal do simulador.
 void scheduler_init();
+
+// informa o estado atual das filas do sistema, além de identificar novos processos
+extern void output_info( unsigned Tick, int pState, int PID);

@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
+//função sleep
+#include <unistd.h>
+
 #include "process.h"
 #include "queue.h"
 #include "scheduler.h"
@@ -10,15 +13,20 @@
 // Tempo total de execução da CPU.
 unsigned CPUtime = 0;
 
+
+
 void simulateCPU(){
     int instruction;
     while(currentProcess && (instruction = queue_pop(currentProcess->instructions)) != CPU){
         request_device(instruction);
     }
-
-    if (currentProcess) printf("[Tick %d]\tExecution process id %d\n", CPUtime, currentProcess->id);
-    else printf("[Tick %d]\tNone\n", CPUtime);
-
+    if (currentProcess)
+      output_info(CPUtime, currentProcess->state, currentProcess->id);
+    else
+      output_info(CPUtime, PSTATE_INVALID, 0);
+    
+    sleep(1);
+    
     CPUtime++;
     timeUsed++;
 }
