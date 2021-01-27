@@ -63,7 +63,7 @@ extern void scheduler_init(){
 }
 
 extern void output_info( unsigned Tick, int pState, int PID){
-  printf("[Tick %d]\t infos", Tick);
+  printf("[Tick %d]\tQueues: | Ready [%d] [%d] |", Tick, ready_queues[0]->length, ready_queues[1]->length);
 
   if(pState == PSTATE_CREATED)
     printf("\tNew process id %d\n", PID);

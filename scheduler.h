@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "process.h"
 #include "queue.h"
+#include "devices.h"
 
 // Número de filas de prioridade. Menor prioridade = mais prioritário.
 #define NUM_PRIORITIES 2
