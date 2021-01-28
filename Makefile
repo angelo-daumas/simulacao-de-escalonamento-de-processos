@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS  = -g -Wall
+CFLAGS  = -g -Wall -D EXAMPLE
 
 default: build
 default: run
