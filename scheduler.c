@@ -13,10 +13,10 @@ a ser executado, de acordo com a ordem das filas de prioridade.
  Se nenhuma das filas tiver um processo a ser executado, o ponteiro currentProcess é null;
 */
 static void get_next_process(){
+    timeUsed = 0;
     for (int i = 0; i < NUM_PRIORITIES; i++) {
         if (!queue_isempty(ready_queues[i])) {
             currentProcess = process_table[queue_pop(ready_queues[i])];
-            timeUsed = 0;
             currentProcess->state = PSTATE_RUNNING;
             return;
         }
