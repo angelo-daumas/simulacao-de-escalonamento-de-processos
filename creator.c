@@ -1,15 +1,26 @@
+/*
+Este arquivo contém uma implementação para a API de creator.h.
+
+Esta implementação gera um número predeterminado de processos, cujas instruções
+também são predefinidas.
+
+Esta implementação não é interativa.
+*/
 #include <stdio.h>
 #include "process.h"
 #include "scheduler.h"
 #include "creator.h"
 #include "output.h"
 
-#define TOTAL_PROCESSES  3  // Total de processos pré-definidos criados.
+#define TOTAL_PROCESSES  3  // Total de processos predefinidos criados.
 
+// Indica número de processos já criados.
+// Usado como índice no array 'future_processes' do próximo processo a ser criado.
+static uint8_t processes_created = 0;
 
-// Indica qual será o índice da próxima operação da CPU
-static int future_index = 0;
-
+// Array que contém os processos predefinidos que serão criados.
+// Nesta declaração podemos indicar o tempo de início de cada processo.
+// Para indicar as instruções dos processos, usar initialize_processes.
 static Process future_processes[TOTAL_PROCESSES] = {
     {.start=0},
     {.start=5},
@@ -21,17 +32,15 @@ static Process future_processes[TOTAL_PROCESSES] = {
 bool is_interactive = false;
 
 extern int has_incoming_processes(){
-    return future_index < TOTAL_PROCESSES;
+    return processes_created < TOTAL_PROCESSES;
 }
 
-extern void create_processes(){
-    static uint8_t pid_gen = 0;
-    
-    while (future_index < TOTAL_PROCESSES){
-        Process* p = &future_processes[future_index];
+extern void create_processes(){    
+    while (processes_created < TOTAL_PROCESSES){
+        Process* p = &future_processes[processes_created];
         if (CPUtime == p->start){
-            pid_gen++;
-            future_index++;
+            processes_created++;
+            unsigned pid_gen = processes_created;
             
             // Inicializar processo
             p->id = pid_gen;
