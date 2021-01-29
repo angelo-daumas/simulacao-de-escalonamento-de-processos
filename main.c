@@ -11,12 +11,11 @@
 #include "creator.h"
 #include "output.h"
 
-// Tempo total de execução da CPU.
-unsigned CPUtime = 0;
-
-const char* device_names[3] = {"DISK", "TAPE", "PRINTER"};
-
+const char* device_names[3];
 void get_user_input();
+
+// Tempo total de execução do simulador (i.e. uptime da CPU).
+unsigned CPUtime = 0;
 
 void simulateCPU(){
     int instruction;
@@ -27,8 +26,6 @@ void simulateCPU(){
     
     timeUsed++;
     output_info(currentProcess);
-    
-    // sleep(1);
     
     CPUtime++;
     
@@ -63,11 +60,11 @@ int main(void){
         
         // Passo 3: Simular o processamento na CPU.
         simulateCPU();
+        
+        if (is_interactive) get_user_input();  // não faz parte do simulador
 
         // Passo 4: Simular o processamento nos dispositivos de E/S.
         simulateIO(); // (implementação: devices.c)
-        
-        if (is_interactive) get_user_input();
     }
 }
 
@@ -76,12 +73,13 @@ int main(void){
 
 static const char instruction_chars[4] = {'D', 'T', 'P', 'C'};
 static const char* priority_names[2] = {"HIGH", "LOW"};
+const char* device_names[3] = {"DISK", "TAPE", "PRINTER"};
 
 #define SHOW_EMPTY_QUEUES 1
 #define SHOW_EVENTS 1
 
 void get_user_input(){
-    printf("Press enter to continue...");
+    printf("Press enter to continue...\n");
     while (getchar() != '\n'){};
 }
 
