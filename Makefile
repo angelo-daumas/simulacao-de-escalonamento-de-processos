@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS  = -g -Wall -D EXAMPLE
+CFLAGS  = -g -Wall
 
 default: build
 default: run
@@ -9,7 +9,13 @@ run: build
 	./simulador
 
 build:  process.o queue.o scheduler.o creator.o devices.o
-	@$(CC) $(CFLAGS) -o simulador main.c process.o queue.o scheduler.o creator.o devices.o
+	@$(CC) $(CFLAGS) -o simulador main.c process.o queue.o scheduler.o creatorrandom.o devices.o
+	
+example: buildexample
+	./example
+
+buildexample: process.o queue.o scheduler.o creator.o devices.o
+	@$(CC) $(CFLAGS) -o example main.c process.o queue.o scheduler.o creator.o devices.o
 
 process.o:  process.c process.h 
 	@$(CC) $(CFLAGS) -c process.c
