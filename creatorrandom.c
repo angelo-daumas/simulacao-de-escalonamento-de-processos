@@ -115,7 +115,7 @@ extern void create_processes(){
                 schedule_process(&processes[pid]);
             }
             else if (process_count < NUM_PROCESSES){
-                for (int i = 0; i < NUM_PROCESSES; i++)
+                for (int i = 0; i <= NUM_PROCESSES; i++)
                     if (processes[i].state == PSTATE_TERMINATED)
                         queue_push(unused_ids, i);
             }
