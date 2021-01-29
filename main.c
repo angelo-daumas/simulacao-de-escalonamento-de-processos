@@ -12,7 +12,7 @@
 #include "output.h"
 
 const char* device_names[3];
-void get_user_input();
+static void get_user_input();
 
 // Tempo total de execução do simulador (i.e. uptime da CPU).
 unsigned CPUtime = 0;
@@ -69,19 +69,15 @@ int main(void){
 }
 
 //------------------------------------------------------------------------------
-// Código usado para gerar a saída do programar e mostar informações da simulação.
+// Código usado para gerar a saída do programa e mostar informações da simulação.
 
-static const char instruction_chars[4] = {'D', 'T', 'P', 'C'};
-static const char* priority_names[2] = {"HIGH", "LOW"};
+static const char instruction_chars[] = {'D', 'T', 'P', 'C'};
+static const char* priority_names[] = {"HIGH", "LOW"};
+static const char* pstate_names[] = {"XXXXX", "Creat", "Ready", "Run", "Block", "Termi"};
 const char* device_names[3] = {"DISK", "TAPE", "PRINTER"};
 
 #define SHOW_EMPTY_QUEUES 1
 #define SHOW_EVENTS 1
-
-void get_user_input(){
-    printf("Press enter to continue...\n");
-    while (getchar() != '\n'){};
-}
 
 static void print_int(TYPE pid){
     printf("%d ", pid);
@@ -89,6 +85,22 @@ static void print_int(TYPE pid){
 
 static void print_instruction(TYPE i){
     printf("%c", instruction_chars[i]);
+}
+
+static void print_process(Process* p){
+    printf("%2d\t%5d\t%5s\t", p->id, p->start, pstate_names[p->state]);
+    queue_foreach(p->instructions, &print_instruction);
+    printf("\n");
+}
+
+static void print_process_table(){
+    printf("ID\tSTART\tSTATE\tINSTRUCTIONS\n");
+    for (int i=1; i <= NUM_PROCESSES; i++){
+        Process* p = process_table[i];
+        if (p)
+            print_process(p);
+    }
+    printf("\n");
 }
 
 static void print_queues(){
@@ -110,6 +122,18 @@ static void print_queues(){
     
     
     printf("\n");
+}
+
+static void get_user_input(){
+    printf("Press enter to continue (type T to view process table)...\n");
+    char c;
+    while ((c = getchar())){
+        switch (c){
+            case '\n': return;
+            case 't': print_process_table(); break;
+            case 'T': print_process_table(); break;
+        }
+    };
 }
 
 // -----
