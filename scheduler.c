@@ -28,14 +28,27 @@ static void get_next_process(){
     }
 }
 
+static void terminate_process(Process* p){
+    currentProcess->state = PSTATE_TERMINATED;
+    process_count--;
+    output_event_terminate(currentProcess);
+}
+
 // -----
 
 Process* currentProcess = NULL;
 uint8_t timeUsed = 0;
 
 extern void schedule_process(Process* p){
-    p->state = PSTATE_READY;
-    queue_push(ready_queues[p->priority], p->id);
+    if (p->instructions->length){
+        p->state = PSTATE_READY;
+        queue_push(ready_queues[p->priority], p->id);
+    }
+    else{
+        // Processos sem instrução não podem chegar na CPU.
+        // Necessário para suportar processos que terminam com instrução de E/S.
+        terminate_process(p);  
+    }
 }
 
 extern void scheduler_block(){
@@ -48,10 +61,8 @@ extern void scheduler(){
         get_next_process();
     }
     else {
-        if (queue_isempty(currentProcess->instructions)){
-            currentProcess->state = PSTATE_TERMINATED;
-            process_count--;
-            output_event_terminate(currentProcess);
+        if (!currentProcess->instructions->length){
+            terminate_process(currentProcess);
             get_next_process();
         }
         else if (timeUsed >= MAX_TIME_USED){
