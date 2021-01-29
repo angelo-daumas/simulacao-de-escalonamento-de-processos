@@ -18,7 +18,7 @@ static Process future_processes[TOTAL_PROCESSES] = {
 
 // -----
 
-bool is_interactive = true;
+bool is_interactive = false;
 
 extern int has_incoming_processes(){
     return future_index < TOTAL_PROCESSES;
