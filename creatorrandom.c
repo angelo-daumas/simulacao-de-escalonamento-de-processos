@@ -61,7 +61,7 @@ static Process processes_array[NUM_SIMULTANEOUS];
 static Process* processes = processes_array-1;
 
 // Retorna um número aleatório de 0 até n.
-static unsigned randint(n){
+static unsigned randint(int n){
     return rand()%(n+1);
 }
 
