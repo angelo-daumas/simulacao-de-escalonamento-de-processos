@@ -125,13 +125,15 @@ static void print_queues(){
 }
 
 static void get_user_input(){
-    printf("Press enter to continue (type T to view process table)...\n");
+    printf("Press enter to continue (type T to view process table or P to stop simulation)...\n");
     char c;
     while ((c = getchar())){
         switch (c){
             case '\n': return;
             case 't': print_process_table(); break;
             case 'T': print_process_table(); break;
+            case 'P': exit(0);
+            case 'p': exit(0);
         }
     };
 }
