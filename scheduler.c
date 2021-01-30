@@ -6,6 +6,9 @@
 // Prioridade atribuída a processos que foram preemptidos por consumirem toda sua fatia de tempo.
 #define PREEMPTED_PROCESS_PRIORITY 1
 
+// Quantum máximo para um processo no Round Robin.
+#define MAX_TIME_USED 3
+
 static Queue* ready_queues[NUM_PRIORITIES];
 
 /*
