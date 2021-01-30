@@ -1,3 +1,5 @@
+.PHONY: run build example buildexample process.o queue.o scheduler.o creator.o creatorrandom.o devices.o clean
+
 CC = gcc
 CFLAGS  = -g -Wall
 
@@ -12,11 +14,11 @@ build:  process.o queue.o scheduler.o creatorrandom.o devices.o
 	@$(CC) $(CFLAGS) -o simulador main.c process.o queue.o scheduler.o creatorrandom.o devices.o
 	
 example: buildexample
-	./example
-
+	./example; $(RM) example
+	
 buildexample: process.o queue.o scheduler.o creator.o devices.o
 	@$(CC) $(CFLAGS) -o example main.c process.o queue.o scheduler.o creator.o devices.o
-
+	
 process.o:  process.c process.h 
 	@$(CC) $(CFLAGS) -c process.c
 
