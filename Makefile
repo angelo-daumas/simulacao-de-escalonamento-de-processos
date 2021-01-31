@@ -8,13 +8,13 @@ default: run
 default: clean
 
 run: build
-	./simulador
+	@./simulador
 
 build:  process.o queue.o scheduler.o creatorrandom.o devices.o
 	@$(CC) $(CFLAGS) -o simulador main.c process.o queue.o scheduler.o creatorrandom.o devices.o
 	
 example: buildexample
-	./example; $(RM) example
+	@./example; $(RM) example
 	
 buildexample: process.o queue.o scheduler.o creator.o devices.o
 	@$(CC) $(CFLAGS) -o example main.c process.o queue.o scheduler.o creator.o devices.o
